@@ -2,7 +2,8 @@
 dataset
 ./data_retrieval_and_analysis/dataset
 ./data_retrieval_and_analysis/experiments### C template
-
+/wifi_csi_har_dataset
+saved_models
 # Prerequisites
 *.d
 

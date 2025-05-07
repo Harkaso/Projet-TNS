@@ -24,12 +24,12 @@ hidden_dim = 256
 layer_dim = 2
 output_dim = 7
 dropout_rate = 0.0
-bidirectional = False
+bidirectional = True
 SEQ_DIM = 1024
 DATA_STEP = 8
 
-BATCH_SIZE = 4
-EPOCHS_NUM = 100
+BATCH_SIZE = 64
+EPOCHS_NUM = 20
 LEARNING_RATE = 0.00146
 
 class_weights = torch.Tensor([0.113, 0.439, 0.0379, 0.1515, 0.0379, 0.1212, 0.1363]).double().to(device)
@@ -41,25 +41,25 @@ def load_data():
     logging.info("Loading data...")
 
     train_dataset = CSIDataset([
-        "./dataset/bedroom_lviv/1",
-        # "./dataset/bedroom_lviv/2",
-        # "./dataset/bedroom_lviv/3",
-        # "./dataset/vitalnia_lviv/1/",
-        # "./dataset/vitalnia_lviv/2/",
-        # "./dataset/vitalnia_lviv/3/",
-        # "./dataset/vitalnia_lviv/4/"
+        "./wifi_csi_har_dataset/room_1/1",
+        "./wifi_csi_har_dataset/room_1/2",
+        "./wifi_csi_har_dataset/room_1/3",
+        "./wifi_csi_har_dataset/room_1/4",
+        "./wifi_csi_har_dataset/room_3/1",
+        "./wifi_csi_har_dataset/room_3/2",
+        "./wifi_csi_har_dataset/room_3/3",
     ], SEQ_DIM, DATA_STEP)
 
-    val_dataset = train_dataset
-    # val_dataset = CSIDataset([
-    #     "./dataset/bedroom_lviv/4",
-    #     # "./dataset/vitalnia_lviv/5/"
-    # ], SEQ_DIM)
+    #val_dataset = train_dataset
+    val_dataset = CSIDataset([
+         "./wifi_csi_har_dataset/room_1/4",
+        "./wifi_csi_har_dataset/room_3/5",
+     ], SEQ_DIM, DATA_STEP)
 
     logging.info("Data is loaded...")
 
-    trn_dl = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
-    val_dl = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
+    trn_dl = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
+    val_dl = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=4)
 
     return trn_dl, val_dl
 
@@ -69,9 +69,9 @@ def train():
     trn_dl, val_dl = load_data()
 
     # model = FCNBaseline(SEQ_DIM, output_dim)
-    # model = LSTMClassifier(input_dim, hidden_dim, layer_dim, dropout_rate, bidirectional, output_dim, BATCH_SIZE)
+    model = LSTMClassifier(input_dim, hidden_dim, layer_dim, dropout_rate, bidirectional, output_dim, BATCH_SIZE)
     # model = SimpleLSTMClassifier(input_dim, hidden_dim, layer_dim, output_dim, dropout_rate, bidirectional,)
-    model = InceptionModel(3, SEQ_DIM, input_dim, 12, 15, True, output_dim)
+    #model = InceptionModel(3, SEQ_DIM, input_dim, 12, 15, True, output_dim)
     model = model.double().to(device)
 
     criterion = nn.CrossEntropyLoss(weight=class_weights_inv)
@@ -101,27 +101,27 @@ def train():
             print("y_batch: ", y_batch)
 
             print("out: ", out.shape)
-            # out = out.view(out.size(0) * out.size(1), out.size(2))
-            # y_batch = y_batch.view(y_batch.size(0) * y_batch.size(1))
+            #out = out.view(out.size(0) * out.size(1), out.size(2))
+            #y_batch = y_batch.view(y_batch.size(0) * y_batch.size(1))
 
-            # print("out: ", out.shape)
+            #print("out: ", out.shape)
 
-            loss = criterion(out, y_batch.long())
-            # loss = criterion(out.view(out.size(0) * out.size(1), out.size(2)), y_batch.view(y_batch.size(0) * y_batch.size(1)).long())
+            #loss = criterion(out, y_batch.long())
+            #loss = criterion(out.view(out.size(0) * out.size(1), out.size(2)), y_batch.view(y_batch.size(0) * y_batch.size(1)).long())
 
             # zero the parameter gradients
             optimizer.zero_grad()
 
             # Backward and optimize
-            loss.backward()
+            #loss.backward()
             optimizer.step()
 
         val_loss, val_correct, val_total, val_acc = get_train_metric(model, val_dl, criterion, BATCH_SIZE)
         train_loss, train_correct, train_total, train_acc = get_train_metric(model, trn_dl, criterion, BATCH_SIZE)
 
         logging.info(f'Epoch: {epoch:3d} |'
-                     f' Validation Loss: {val_loss:.2f}, Validation Acc.: {val_acc:2.2%}, '
-                     f'Train Loss: {train_loss:.2f}, Train Acc.: {train_acc:2.2%}'
+                     f' Validation Loss: {val_loss:.2f}, Validation Acc.: {val_acc:2.2%}, Validation precision: {val_correct / val_total:2.2%} \n'
+                     f'Train Loss: {train_loss:.2f}, Train Acc.: {train_acc:2.2%}, Train precision: {train_correct / train_total:2.2%}'
                      )
 
         if val_acc > best_acc:
