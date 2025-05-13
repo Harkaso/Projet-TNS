@@ -1,56 +1,69 @@
-# Human Activity Recognition based on Wi-Fi CSI Data - A Deep Neural Network Approach
+# Projet : Analyse des Signaux WiFi via CSI et Deep Learning pour la Reconnaissance d'Activités Humaines
 
-This is a repository with source code for the [paper "Human Activity Recognition based on Wi-Fi CSI Data - A Deep Neural Network Approach"](https://www.sciencedirect.com/science/article/pii/S1877050921024509) 
-and respective [thesis](https://s3.eu-central-1.amazonaws.com/ucu.edu.ua/wp-content/uploads/sites/8/2021/07/Zhuravchak-Andrii_188586_assignsubmission_file_Bachelor_Thesis_Human_Activity_Recognition_based_on_WiFi_CSI_data.pdf)
-(it contains more details that are not covered in the paper).
+## 🧠 Contexte
 
-Using Wi-Fi Channel State Information (CSI) is a novel way of sensing and human activity recognition (HAR). Such a
-system can be used in medical institutions for their patients monitoring without privacy violence, as it could be with a
-vision-based approach.
+Les signeaux WiFi, via l'information d'état du canal **(channel state information - CSI)**, permettent de détecter
+et d'analyser les mouvements humains dans un environnement sans recourir à des capteurs dédiés. Ce projet vise
+à exploiter le CSI combiné à des modéles de deep learning **(CNN/LSTM)** pour estimer le nombre de personnes
+ou reconnaître leurs activités. L'optimisation des hyperparamètres des modèles sera réalisée à l'aide 
+di **Sine Cosine Algorithm (SCA)**, une métaheuristique inspirée des fonctions trigonométriques.
+---
 
-The main goal of this thesis was to explore current methods and systems which use Wi-Fi CSI, conduct experiments to
-analyze how different hardware configurations affect the data and possibility to detect human activity, collect the
-dataset and build the classification model for HAR task. 8 experiments were performed, the dataset in 3 different rooms
-was collected, and LSTM-based classification model was build and trained. We’ve shown the full pipeline of building
-Wi-Fi CSI based system.
+## 🎯 Objectifs
 
-## Repository structure
+### 1. Prétraitement des données CSI
+- Extraire et normaliser les données CSI à partir d’un jeu de données public :
+  - [Dataset Wi-Fi CSI – Human Activity Recognition](https://figshare.com/articles/dataset/Dataset_for_Human_Activity_Recognition_using_Wi-Fi_Channel_State_Information_CSI_data/14386892/1?file=27485900)
 
-- `router` - contains source code for `sendData` and `recvCSI`. 
-They are used to send data packet from one router and calculate the CSI data on another. 
-Then `recvCSI` sends the data to a user computer via UDP connection for further processing.
+### 2. Modélisation Deep Learning
+- Concevoir une architecture **CNN** ou **LSTM** pour analyser des **séquences CSI**.
 
-- `data_retrieval` - contains a program (`run_visualization_server.py`) that listens to `recvCSI` program, 
-visualizes incoming data, and saves it to a file. Also, it has a script for a dummy server to emulate incoming data from
-the router (`run_test_client.py`) and a sample CSI data in binary format as it is coming from the router 
-(`data/sample_csi_packet_big_endian.dat`). 
+### 3. Optimisation des hyperparamètres
 
-- `model` - has all the code for building the model and training it, scripts that were used to label activities,
-notebook for EDA, etc.
+Adapter différents algorithmes pour optimiser les hyperparamètres clés tels que :
+- Taux d’apprentissage
+- Nombre de couches
+- Taille des noyaux, etc.
 
+Les algorithmes proposés :
 
-## Dataset
+- [**Sine Cosine Algorithm (SCA)**](https://github.com/thieu1995/mealpy/blob/master/mealpy/math_based/SCA.py)
 
-The dataset can be downloaded by the following [link](https://doi.org/10.6084/m9.figshare.14386892.v1).
+- [**Grey Wolf Optimizer (GWO)**](https://github.com/thieu1995/mealpy/blob/master/mealpy/swarm_based/GWO.py)
 
-## Authors
+- [**Arithmetic Optimization Algorithm (AOA)**](https://github.com/thieu1995/mealpy/blob/master/mealpy/math_based/AOA.py)
 
-* **[Andrew Zhuravchak](https://github.com/Retsediv)** - Ukrainian Catholic University (UCU) former student
-* **Oleh Kapshii** - supervisor
+- [**Equilibrium Optimizer (EO)**](https://github.com/thieu1995/mealpy/blob/master/mealpy/physics_based/EO.py)
 
-## License
+- [**Harris Hawks Optimization (HHO)**](https://github.com/thieu1995/mealpy/blob/master/mealpy/swarm_based/HHO.py)
 
-This project is licensed under the GNU License - see the [LICENSE.md](LICENSE.md) file for details
+### 4. Interface Utilisateur
 
-## Acknowledgments
+Développer une interface en **Python (Streamlit)** ou **MATLAB (App Designer)** permettant :
 
-* This repository is a fork from
-  the [Atheros-CSI-Tool-UserSpace-APP](https://github.com/NovelSense/Atheros-CSI-Tool-UserSpace-APP)
-  which is based on [Atheros-CSI-Tool](https://github.com/xieyaxiongfly/Atheros-CSI-Tool).
-* [RF-pose](http://rfpose.csail.mit.edu/) for inspiration for doing this work
-* Cypress Semiconductor company, ASR Ukraine team and especially Oleh Kapshii for support and help
+- Visualisation des données CSI et des activités détectées
+- Ajustement interactif des hyperparamètres et réentraînement du modèle
+- Export des résultats :
+  - Matrices de confusion
+  - Courbes d’apprentissage
+  - Métriques de performance (accuracy, précision...)
 
-## Contributing
+---
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of
-conduct, and the process for submitting pull requests to us.
+## 🔗 Liens Utiles
+
+- [Dataset CSI – Human Activity Recognition (Figshare)](https://figshare.com/articles/dataset/Dataset_for_Human_Activity_Recognition_using_Wi-Fi_Channel_State_Information_CSI_data/14386892/1?file=27485900)  
+- [Code de base CSI Activity Recognition](https://github.com/ludlows/CSI-Activity-Recognition/tree/master)  
+- [Implémentation Deep Learning CSI](https://github.com/Retsediv/WIFI_CSI_based_HAR)  
+- [Mealpy - Optimisation Metaheuristique](https://github.com/thieu1995/mealpy)
+
+---
+
+## 📌 Note
+
+Les étudiants doivent se regrouper en **équipes de 4 à 5 personnes** et choisir **l’un des algorithmes d’optimisation** suivants :
+- SCA
+- GWO
+- HHO
+- AOA
+- EO
