@@ -288,3 +288,4 @@ if __name__ == '__main__':
         To start please change directory to the current project directory: > cd {your_path}/analyseur/
         then run the command: > streamlit run ./app.py
             """)
+     app()
