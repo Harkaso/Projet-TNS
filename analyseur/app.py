@@ -19,7 +19,11 @@ from tensorflow.keras.layers import Conv1D, LSTM, Dense, Dropout, Flatten, Input
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
-from tensorflow.python.ops.numpy_ops.np_utils import result_type
+
+"""
+To start please change directory to the current project directory: > cd {your_path}/analyseur/
+then run the command: > streamlit run ./app.py
+"""
 
 def app(aoa_epoch=5, model_epoch=5):
     class Capturing(list):
@@ -280,4 +284,7 @@ def app(aoa_epoch=5, model_epoch=5):
 
 
 if __name__ == '__main__':
-    app()
+     print("""
+        To start please change directory to the current project directory: > cd {your_path}/analyseur/
+        then run the command: > streamlit run ./app.py
+            """)
