@@ -20,10 +20,10 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 
-"""
-To start please change directory to the current project directory: > cd {your_path}/analyseur/
-then run the command: > streamlit run ./app.py
-"""
+
+# To start please change directory to the current project directory: > cd {your_path}/analyseur/
+# then run the command: > streamlit run ./app.py
+
 
 def app(aoa_epoch=5, model_epoch=5):
     class Capturing(list):
@@ -284,8 +284,6 @@ def app(aoa_epoch=5, model_epoch=5):
 
 
 if __name__ == '__main__':
-     print("""
-        To start please change directory to the current project directory: > cd {your_path}/analyseur/
-        then run the command: > streamlit run ./app.py
-            """)
-     app()
+    # To start please change directory to the current project directory: > cd {your_path}/analyseur/
+    # then run the command: > streamlit run ./app.py
+    app()
