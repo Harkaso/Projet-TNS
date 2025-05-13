@@ -224,7 +224,7 @@ def app(aoa_epoch=5, model_epoch=5):
                         ]
                         best_params_dict = {name: val for name, val in zip(param_names, best_params)}
                         st.json(best_params_dict)
-                        with open("./saves/best_params.json", "w") as f:
+                        with open("saves/best_params.json", "w") as f:
                             json.dump(best_params_dict, f, indent=4)
 
                         with st.spinner("Construction du modèle final..."):
