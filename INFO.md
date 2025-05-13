@@ -22,7 +22,7 @@
 - Niveau : **3ᵉ année ingénieur informatique – spécialité sécurité informatique**
 - Projet encadré par :
   - **M. Neggaz Nabil** 
-  - **M. Besnasi Miloud**
+  - **M. Besnassi Miloud**
 
 ---
 
